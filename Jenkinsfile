@@ -10,7 +10,7 @@ pipeline {
         stage('Test') {
             steps {
                 echo '🔹 Testowanie...'
-                sh 'ls -la'  # Pokazuje pliki w repo
+                sh 'ls -la' 
             }
         }
     }
