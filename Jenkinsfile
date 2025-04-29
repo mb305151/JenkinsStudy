@@ -15,11 +15,11 @@ pipeline {
         }
         stage('Run Tests') {
             steps {
-                sh 'pytest -v test_calculator.py || true'  # "-v" dla szczegółowego outputu
+                sh 'pytest -v test_calculator.py || true'   
             }
             post {
                 always {
-                    junit '**/junit.xml'  # Zbierz wyniki testów (opcjonalnie)
+                    junit '**/junit.xml'  
                 }
             }
         }
