@@ -3,14 +3,24 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                echo '🔹 Pobieranie kodu z GitHub...'
-                git branch: 'main', url: 'https://github.com/mb305151/JenkinsStudy.git'
+                git branch: 'main', 
+                url: 'https://github.com/mb305151/JenkinsStudy.git'
             }
         }
-        stage('Test') {
+        stage('Setup Python') {
             steps {
-                echo '🔹 Testowanie...'
-                sh 'ls -la' 
+                sh 'python3 --version'
+                sh 'pip3 install -r requirements.txt'
+            }
+        }
+        stage('Run Tests') {
+            steps {
+                sh 'pytest -v test_calculator.py || true'  # "-v" dla szczegółowego outputu
+            }
+            post {
+                always {
+                    junit '**/junit.xml'  # Zbierz wyniki testów (opcjonalnie)
+                }
             }
         }
     }
