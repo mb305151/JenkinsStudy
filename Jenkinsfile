@@ -7,20 +7,22 @@ pipeline {
                 url: 'https://github.com/mb305151/JenkinsStudy.git'
             }
         }
-        stage('Setup Python') {
+        stage('Setup Python venv') {
             steps {
-                sh 'python3 --version'
-                sh 'pip3 install -r requirements.txt'
+                sh '''
+                    python3 -m venv venv
+                    . venv/bin/activate
+                    pip install --upgrade pip
+                    pip install -r requirements.txt
+                '''
             }
         }
         stage('Run Tests') {
             steps {
-                sh 'pytest -v test_calculator.py || true'   
-            }
-            post {
-                always {
-                    junit '**/junit.xml'  
-                }
+                sh '''
+                    . venv/bin/activate
+                    pytest -v test_calculator.py
+                '''
             }
         }
     }
